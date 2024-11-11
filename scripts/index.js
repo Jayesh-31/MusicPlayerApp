@@ -31,6 +31,21 @@ function addSongElem(song){
     songContainer.appendChild(songElem);
 }
 
+function createPlayList(playListName){
+    const playListElem = document.createElement('div');
+    playListElem.classList.add('playlist-name');
+    playListElem.textContent = playListName;
+    playListElem.addEventListener('click', () => {
+        setToCurrentPlaylist(playListElem);
+    });
+    allPlayListElem.appendChild(playListElem);
+}
+
+function setToCurrentPlaylist(playListElem){
+    currentPlayListElem.querySelector('.current-playlist-item').innerHTML = "";
+    currentPlayListElem.querySelector('.current-playlist-item').appendChild(playListElem);
+}
+
 function playSong(songId){
     let songSelected;
 
@@ -105,6 +120,11 @@ const prevSongBtn = songButtonContainer.querySelector('.prev');
 const addToPlayListBtn = songButtonContainer.querySelector('.add-to-playlist');
 const nextSongBtn = songButtonContainer.querySelector('.next');
 
+const playListContainer = document.querySelector('.playlist');
+const playListInputElem = playListContainer.querySelector('#playlist-name');
+const createPlayListBtn = playListContainer.querySelector('.create-playlist');
+const currentPlayListElem = playListContainer.querySelector('.current-playlist');
+const allPlayListElem = playListContainer.querySelector('.all-playlist');
 
 let currentSongPlaying;
 let currentPlayList = songList
@@ -120,10 +140,19 @@ filterSongSelect.addEventListener('change', () => {
 
 prevSongBtn.addEventListener('click', () => {
     playPrevSong();
-})
+});
 
 nextSongBtn.addEventListener('click', () => {
     playNextSong();
-})
+});
+
+createPlayListBtn.addEventListener('click', () => {
+    if(playListInputElem.value !== ""){
+        createPlayList(playListInputElem.value);
+        playListInputElem.value = "";
+    } else {
+        alert("Please Enter A Name For Playlist");
+    }
+});
 
 setInitialSongData();
